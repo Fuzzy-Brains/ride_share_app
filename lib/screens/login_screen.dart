@@ -13,6 +13,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBarMain('LOGIN'),
+      body: Container(
+      ),
     );
   }
 }
