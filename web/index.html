@@ -30,6 +30,32 @@
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
+
+<script src="https://www.gstatic.com/firebasejs/9.2.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.2.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.2.0/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.2.0/firebase-storage.js"></script>
+
+  <script>
+    import { initializeApp } from 'firebase/app';
+
+    const firebaseConfig = {
+    apiKey: "AIzaSyCu79X3iqsVXpGjQSagAj4FQo7WzRoSXnE",
+    authDomain: "ride-share-app-af5d0.firebaseapp.com",
+    databaseURL: "https://ride-share-app-af5d0-default-rtdb.firebaseio.com",
+    projectId: "ride-share-app-af5d0",
+    storageBucket: "ride-share-app-af5d0.appspot.com",
+    messagingSenderId: "112706362283",
+    appId: "1:112706362283:web:cad27832e686692f5a50ee",
+    measurementId: "G-YQ1Y3J1QPT"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  </script>
+
+<script src="main.dart.js" type="application/javascript"></script>
+
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->

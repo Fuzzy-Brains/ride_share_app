@@ -71,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: TextFormField(
                               controller: _controller,
                               validator: (val){
-                                return val!.isEmpty || val.length<10 ? 'Please enter 10 digits.' : null;
+                                return val!.isEmpty || val.length<10 ? 'Please enter a valid phone number.' : null;
                               },
                               keyboardType: TextInputType.phone,
                               maxLength: 10,
