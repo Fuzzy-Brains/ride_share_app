@@ -26,7 +26,7 @@ class _OtpState extends State<Otp> {
       )).then((value){
         if(value.user != null){
           Navigator.pushReplacement(context, MaterialPageRoute(
-            builder: (c) => HomeScreen(),
+            builder: (c) => HomeScreen(user: value.user,),
           ));
         }
       });
@@ -49,7 +49,7 @@ class _OtpState extends State<Otp> {
           await FirebaseAuth.instance.signInWithCredential(phoneAuthCredential).then((value){
             if(value.user != null){
               Navigator.pushReplacement(context, MaterialPageRoute(
-                builder: (c) => HomeScreen(),
+                builder: (c) => HomeScreen(user: value.user,),
               ));
             }
           });

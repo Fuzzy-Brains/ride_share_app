@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:ride_share_app/screens/home_screen.dart';
 import 'package:ride_share_app/screens/login_screen.dart';
 import 'package:ride_share_app/screens/otp.dart';
+import 'package:ride_share_app/utils/authenticate.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -9,10 +12,16 @@ void main() async{
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Authenticate authenticate = Authenticate();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -22,7 +31,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: Colors.white
       ),
-      home: const LoginScreen(),
+      home: authenticate.getLoggedInUser(context),
     );
   }
 }
