@@ -1,36 +1,106 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:ride_share_app/widgets/widget.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pinput/pin_put/pin_put.dart';
+import 'package:ride_share_app/screens/home_screen.dart';
 
 class Otp extends StatefulWidget {
-  const Otp({Key? key}) : super(key: key);
+  final String phoneNumber;
+  const Otp({Key? key, required this.phoneNumber }) : super(key: key);
 
   @override
   _OtpState createState() => _OtpState();
 }
 
 class _OtpState extends State<Otp> {
+  final TextEditingController _otpController = TextEditingController();
+  final FocusNode _pinOtpFocusNode = FocusNode();
+  String? verificationId;
+
+  signIn() async{
+    String otp = _otpController.text;
+    try{
+      await FirebaseAuth.instance.signInWithCredential(PhoneAuthProvider.credential(
+        verificationId: verificationId!,
+        smsCode: otp,
+      )).then((value){
+        if(value.user != null){
+          Navigator.pushReplacement(context, MaterialPageRoute(
+            builder: (c) => HomeScreen(),
+          ));
+        }
+      });
+    }catch(e){
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
+  initState(){
+    super.initState();
+    verifyPhoneNumber();
+  }
+
+  verifyPhoneNumber() async{
+    try{
+      await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: widget.phoneNumber,
+        verificationCompleted: (PhoneAuthCredential phoneAuthCredential) async{
+          _otpController.text = phoneAuthCredential.smsCode!;
+          await FirebaseAuth.instance.signInWithCredential(phoneAuthCredential).then((value){
+            if(value.user != null){
+              Navigator.pushReplacement(context, MaterialPageRoute(
+                builder: (c) => HomeScreen(),
+              ));
+            }
+          });
+        },
+        verificationFailed: (FirebaseAuthException e) async{
+          Fluttertoast.showToast(msg: e.toString());
+        },
+        codeSent: (String vId, [int? resendToken]) async{
+          setState(() {
+            verificationId = vId;
+          });
+        },
+        codeAutoRetrievalTimeout: (String vId) async{
+          setState(() {
+            verificationId = vId;
+          });
+        },
+        timeout: Duration(seconds: 60),
+      );
+    }catch(e){
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
+  final BoxDecoration _pinOTPFieldDecoration = BoxDecoration(
+    borderRadius: BorderRadius.circular(10.0),
+    border: Border.all(color: Colors.deepPurple),
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Color(0xfff7f6fb),
+      backgroundColor: const Color(0xfff7f6fb),
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 24, horizontal: 32),
+          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 32),
           child: Column(
             children: [
               Align(
                 alignment: Alignment.topLeft,
                 child: GestureDetector(
                   onTap: () => Navigator.pop(context),
-                  child: Icon(
+                  child: const Icon(
                     Icons.arrow_back,
                     size: 32,
                     color: Colors.black54,
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 18,
               ),
               Container(
@@ -44,20 +114,20 @@ class _OtpState extends State<Otp> {
                   'assets/illustration-3.png',
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 24,
               ),
-              Text(
+              const Text(
                 'Verification',
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Text(
+              const Text(
                 "Enter your OTP code number",
                 style: TextStyle(
                   fontSize: 14,
@@ -66,35 +136,38 @@ class _OtpState extends State<Otp> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 28,
               ),
               Container(
-                padding: EdgeInsets.all(28),
+                padding: const EdgeInsets.all(28),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        _textFieldOTP(first: true, last: false),
-                        _textFieldOTP(first: false, last: false),
-                        _textFieldOTP(first: false, last: false),
-                        _textFieldOTP(first: false, last: true),
-                        _textFieldOTP(first: true, last: false),
-                        _textFieldOTP(first: false, last: true),
-                      ],
+                    PinPut(
+                      fieldsCount: 6,
+                      textStyle: TextStyle(
+                        fontSize: 25, color: Colors.black, fontWeight: FontWeight.bold
+                      ),
+                      eachFieldWidth: 40,
+                      eachFieldHeight: 55,
+                      focusNode: _pinOtpFocusNode,
+                      controller: _otpController,
+                      selectedFieldDecoration: _pinOTPFieldDecoration,
+                      submittedFieldDecoration: _pinOTPFieldDecoration,
+                      followingFieldDecoration: _pinOTPFieldDecoration,
+                      pinAnimationType: PinAnimationType.rotation,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 22,
                     ),
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: signIn,
                         style: ButtonStyle(
                           foregroundColor:
                               MaterialStateProperty.all<Color>(Colors.white),
@@ -107,7 +180,7 @@ class _OtpState extends State<Otp> {
                             ),
                           ),
                         ),
-                        child: Padding(
+                        child: const Padding(
                           padding: EdgeInsets.all(14.0),
                           child: Text(
                             'Verify',
@@ -119,10 +192,10 @@ class _OtpState extends State<Otp> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 18,
               ),
-              Text(
+              const Text(
                 "Didn't you receive any code?",
                 style: TextStyle(
                   fontSize: 14,
@@ -131,17 +204,20 @@ class _OtpState extends State<Otp> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 18,
               ),
-              Text(
-                "Resend New Code",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.purple,
+              GestureDetector(
+                onTap: verifyPhoneNumber,
+                child: const Text(
+                  "Resend New Code",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.purple,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
               ),
             ],
           ),
@@ -151,33 +227,33 @@ class _OtpState extends State<Otp> {
   }
 
   Widget _textFieldOTP({bool first=true, last}) {
-    return Container(
+    return SizedBox(
       height: 40,
       child: AspectRatio(
         aspectRatio: 1.0,
         child: TextField(
-          autofocus: true,
+          autofocus: false,
           onChanged: (value) {
             if (value.length == 1 && last == false) {
               FocusScope.of(context).nextFocus();
             }
-            if (value.length == 0 && first == false) {
+            if (value.isEmpty && first == false) {
               FocusScope.of(context).previousFocus();
             }
           },
           showCursor: false,
           readOnly: false,
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           keyboardType: TextInputType.number,
           maxLength: 1,
           decoration: InputDecoration(
-            counter: Offstage(),
+            counter: const Offstage(),
             enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 2, color: Colors.black12),
+                borderSide: const BorderSide(width: 2, color: Colors.black12),
                 borderRadius: BorderRadius.circular(12)),
             focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 2, color: Colors.purple),
+                borderSide: const BorderSide(width: 2, color: Colors.purple),
                 borderRadius: BorderRadius.circular(12)),
           ),
         ),

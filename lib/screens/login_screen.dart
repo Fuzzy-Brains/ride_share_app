@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:ride_share_app/backend/auth.dart';
-import 'package:ride_share_app/widgets/widget.dart';
+import 'package:ride_share_app/screens/otp.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -13,12 +11,20 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _controller = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  Auth auth = Auth();
+  bool isLoading = false;
+
   sendOtp() async{
     if(formKey.currentState!.validate()){
+      setState(() {
+        isLoading = true;
+      });
       var phoneNumberText = _controller.text.trim();
       String phone = "+91" + phoneNumberText;
-      await auth.verifyPhoneNumber(phone);
+      await Navigator.pushReplacement(context, MaterialPageRoute(
+        builder: (context) => Otp(
+          phoneNumber: phone,
+        ),
+      ));
     }
   }
 
@@ -30,6 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           children: <Widget>[
             Container(
+              margin: const EdgeInsets.only(top: 20),
               height: 400,
               width: double.infinity,
               decoration: const BoxDecoration(
@@ -78,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               decoration: InputDecoration(
                                 border :InputBorder.none,
                                 hintText: "Mobile Number (10 digits)",
-                                icon: const Icon(Icons.phone),
+                                icon: const Icon(Icons.phone, color: Color(0xff6c63ff),),
                                 hintStyle: TextStyle(color:Colors.grey[400],)
                               ),
                             )
@@ -96,11 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Container(height: 50,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      gradient: const LinearGradient(
-                        colors: [
-                          Color.fromRGBO(143, 150, 251,1),
-                          Color.fromRGBO(143, 150, 251,.9),
-                      ])
+                      color: Color(0xff6c63ff),
                     ),
                     child: const Center(
                       child: Text("Get OTP",
@@ -109,7 +112,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   )
                 ],
-              ),)
+              ),),
+            isLoading ? Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(color: Color(0xff6c63ff),),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.04,),
+                  Text('Sending OTP.. Please Wait..')
+                ],
+              ),
+            ) : Container()
           ],
         ),
       ),
