@@ -41,6 +41,10 @@ dependencies:
   fluttertoast: ^8.0.8
   firebase_storage: ^10.0.6
   pinput: ^1.2.1
+  google_maps_flutter: ^2.1.0
+  geolocator: ^7.7.1
+  http: ^0.13.4
+#  requests: ^3.3.0
 
 dev_dependencies:
   flutter_test:
