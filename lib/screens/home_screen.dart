@@ -6,6 +6,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ride_share_app/config/config.dart';
 import 'package:ride_share_app/models/places.dart';
+import 'package:ride_share_app/screens/login_screen.dart';
 import 'dart:convert';
 import 'package:ride_share_app/utils/constants.dart';
 import 'package:http/http.dart' as http;
@@ -24,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late Position currentPosition;
 
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+  FirebaseAuth _auth = FirebaseAuth.instance;
 
   void locatePosition() async{
     Position position = await Geolocator.getCurrentPosition(
@@ -71,6 +73,14 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       itemCount: items.length,
     );
+  }
+
+  void signOut() async{
+    await _auth.signOut().then((value){
+      Navigator.pushReplacement(context, MaterialPageRoute(
+        builder: (c)=> LoginScreen()
+      ));
+    });
   }
 
 
@@ -131,6 +141,24 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             top: 50,
             left: 30,
+          ),
+
+          Positioned(
+            child: GestureDetector(
+              onTap: (){
+                signOut();
+              },
+              child: Container(
+                child: Icon(Icons.exit_to_app),
+                padding: EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: white
+                ),
+              ),
+            ),
+            top: 50,
+            right: 30,
           ),
           Positioned(
             left: 0,
