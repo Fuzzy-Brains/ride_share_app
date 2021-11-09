@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pinput/pin_put/pin_put.dart';
-import 'package:ride_share_app/screens/home_screen.dart';
+import 'package:ride_share_app/screens/user_screen.dart';
+
+import 'home.dart';
 
 class Otp extends StatefulWidget {
   final String phoneNumber;
@@ -26,7 +28,7 @@ class _OtpState extends State<Otp> {
       )).then((value){
         if(value.user != null){
           Navigator.pushReplacement(context, MaterialPageRoute(
-            builder: (c) => HomeScreen(user: value.user,),
+            builder: (c) => Home(user: value.user,),
           ));
         }
       });
@@ -49,7 +51,7 @@ class _OtpState extends State<Otp> {
           await FirebaseAuth.instance.signInWithCredential(phoneAuthCredential).then((value){
             if(value.user != null){
               Navigator.pushReplacement(context, MaterialPageRoute(
-                builder: (c) => HomeScreen(user: value.user,),
+                builder: (c) => Home(user: value.user,),
               ));
             }
           });

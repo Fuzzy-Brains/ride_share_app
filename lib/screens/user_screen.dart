@@ -11,15 +11,15 @@ import 'dart:convert';
 import 'package:ride_share_app/utils/constants.dart';
 import 'package:http/http.dart' as http;
 
-class HomeScreen extends StatefulWidget {
+class UserScreen extends StatefulWidget {
   final User? user;
-  const HomeScreen({Key? key, required this.user }) : super(key: key);
+  const UserScreen({Key? key, required this.user }) : super(key: key);
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _UserScreenState createState() => _UserScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _UserScreenState extends State<UserScreen> {
   late GoogleMapController _mapController;
 
   late Position currentPosition;
@@ -86,6 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       key: _scaffoldKey,
       drawer: Drawer(
@@ -160,6 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
             top: 50,
             right: 30,
           ),
+
           Positioned(
             left: 0,
             right: 0,
@@ -187,9 +189,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         findPlaces(place);
                       },
                       decoration: InputDecoration(
-                        hintText: 'Source Location',
-                        icon: Icon(Icons.location_on),
-                        border: InputBorder.none
+                          hintText: 'Source Location',
+                          icon: Icon(Icons.location_on),
+                          border: InputBorder.none
                       ),
                     ),
                   ),
