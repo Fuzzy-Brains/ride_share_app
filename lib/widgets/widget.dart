@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ride_share_app/utils/constants.dart';
+import 'package:flutter/material.dart';
+
 
 AppBar appBarMain(String title){
   return AppBar(
