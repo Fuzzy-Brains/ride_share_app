@@ -4,14 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class Database{
   FirebaseFirestore _database = FirebaseFirestore.instance;
 
-  Future setUserRole(User? user, String role) async{
-    CollectionReference users = _database.collection('users');
-    return users.doc(user!.uid).set({
-      'user_id': user.uid,
-      'phone_number': user.phoneNumber,
-      'role': role
-    });
-  }
+
 
   Future saveVehicleData(User? user, String reg_no, String owner, String location, bool availability) async {
     CollectionReference vehicles = _database.collection('vehicles');
@@ -48,13 +41,23 @@ class Database{
   }
 
 
-  // Future updateProfile(User? user, String name, String email, String aadhaar_no,
-  //     String pan_no, String card_no, String address) async{
-  //   CollectionReference users = _database.collection('users');
-  //   return users.doc(user!.uid).set({
-  //     'name': name,
-  //     'email': email,
-  //     'aad'
-  //   });
-  // }
+  Future updateProfile(User? user, String name, String email, String aadhaar_no,
+      String pan_no, String card_no, String address) async{
+    CollectionReference users = _database.collection('users');
+    return users.doc(user!.uid).set({
+      'user_id': user.uid,
+      'name': name,
+      'email': email,
+      'phone_number': user.phoneNumber,
+      'aadhaar_no':aadhaar_no,
+      'pan_no': pan_no,
+      'credit_card_no': card_no,
+      'address': address
+    });
+  }
+
+  Future getProfileData(User? user) async{
+    CollectionReference users = _database.collection('users');
+    return await users.where('user_id', isEqualTo: user!.uid).get();
+  }
 }

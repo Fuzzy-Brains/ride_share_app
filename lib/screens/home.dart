@@ -53,7 +53,7 @@ class _HomeState extends State<Home> {
               children: [
                 GestureDetector(
                   onTap: (){
-                    db.setUserRole(widget.user, 'rider');
+                    // db.setUserRole(widget.user, 'rider');
                     Navigator.push(context, MaterialPageRoute(
                         builder: (c)=> UserScreen(user:widget.user)
                     ));
@@ -75,7 +75,7 @@ class _HomeState extends State<Home> {
                 SizedBox(height: 40,),
                 GestureDetector(
                   onTap: (){
-                    db.setUserRole(widget.user, 'lender');
+                    // db.setUserRole(widget.user, 'lender');
                     Navigator.push(context, MaterialPageRoute(
                         builder: (c)=> LenderScreen(user: widget.user)
                     ));

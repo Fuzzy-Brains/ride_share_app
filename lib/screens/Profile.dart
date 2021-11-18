@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ride_share_app/backend/database.dart';
 import 'package:ride_share_app/screens/user_screen.dart';
 
 
@@ -22,7 +25,43 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
+  TextEditingController nameController= TextEditingController();
+  TextEditingController emailController= TextEditingController();
+  TextEditingController aadhaarController= TextEditingController();
+  TextEditingController panController= TextEditingController();
+  TextEditingController creditController= TextEditingController();
+  TextEditingController addressController= TextEditingController();
   bool showPassword = false;
+  Database db= Database();
+  QuerySnapshot? snapshot;
+
+  saveProfile() async{
+    String name= nameController.text.toString().trim();
+    String email= emailController.text.toString().trim();
+    String aadhaar= aadhaarController.text.toString().trim();
+    String pan= panController.text.toString().trim();
+    String credit= creditController.text.toString().trim();
+    String address= addressController.text.toString().trim();
+    await db.updateProfile(widget.user, name, email, aadhaar, pan, credit, address).then((value) {
+      Fluttertoast.showToast(msg: "Profile Updated Successfully");
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getProfileData();
+  }
+  getProfileData() async{
+    await db.getProfileData(widget.user).then((value) {
+      setState(() {
+        snapshot = value;
+      });
+    });
+    print(snapshot!.docs[0].get('name'));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,64 +103,62 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 "Edit Profile",
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
               ),
-              SizedBox(
-                height: 15,
-              ),
-              Center(
-                child: Stack(
-                  children: [
-                    Container(
-                      width: 130,
-                      height: 130,
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              width: 4,
-                              color: Theme.of(context).scaffoldBackgroundColor),
-                          boxShadow: [
-                            BoxShadow(
-                                spreadRadius: 2,
-                                blurRadius: 10,
-                                color: Colors.black.withOpacity(0.1),
-                                offset: Offset(0, 10))
-                          ],
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(
-                                "https://images.pexels.com/photos/3307758/pexels-photo-3307758.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250",
-                              ))),
-                    ),
-                    Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              width: 4,
-                              color: Theme.of(context).scaffoldBackgroundColor,
-                            ),
-                            color: Colors.green,
-                          ),
-                          child: Icon(
-                            Icons.edit,
-                            color: Colors.white,
-                          ),
-                        )),
-                  ],
-                ),
+              // SizedBox(
+              //   height: 15,
+              // ),
+              Column(
+                children: [
+                  // Container(
+                  //   width: 130,
+                  //   height: 130,
+                  //   decoration: BoxDecoration(
+                  //       border: Border.all(
+                  //           width: 4,
+                  //           color: Theme.of(context).scaffoldBackgroundColor),
+                  //       boxShadow: [
+                  //         BoxShadow(
+                  //             spreadRadius: 2,
+                  //             blurRadius: 10,
+                  //             color: Colors.black.withOpacity(0.1),
+                  //             offset: Offset(0, 10))
+                  //       ],
+                  //       shape: BoxShape.circle,
+                  //       image: DecorationImage(
+                  //           fit: BoxFit.cover,
+                  //           image: NetworkImage(
+                  //             "https://images.pexels.com/photos/3307758/pexels-photo-3307758.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250",
+                  //           ))),
+                  // ),
+                  // Positioned(
+                  //     bottom: 0,
+                  //     right: 0,
+                  //     child: Container(
+                  //       height: 40,
+                  //       width: 40,
+                  //       decoration: BoxDecoration(
+                  //         shape: BoxShape.circle,
+                  //         border: Border.all(
+                  //           width: 4,
+                  //           color: Theme.of(context).scaffoldBackgroundColor,
+                  //         ),
+                  //         color: Colors.green,
+                  //       ),
+                  //       child: Icon(
+                  //         Icons.edit,
+                  //         color: Colors.white,
+                  //       ),
+                  //     )),
+                ],
               ),
               SizedBox(
                 height: 35,
               ),
-              buildTextField("Full Name", "Dor Alex", false),
-              buildTextField("E-mail", "alexd@gmail.com", false),
-              buildTextField("Aadhar Number", "********", false),
-              buildTextField("Pan Number", "*******", false),
-              buildTextField("Credit Card", "*******", false),
-              buildTextField("Address", "TLV, Israel", false),
+              buildTextField("Full Name", "${snapshot!.docs[0].get('name')}", false, nameController),
+              buildTextField("E-mail", "${snapshot!.docs[0].get('email')}", false, emailController),
+              buildTextField("Aadhar Number", "${snapshot!.docs[0].get('aadhaar_no')}", false, aadhaarController),
+              buildTextField("Pan Number", "${snapshot!.docs[0].get('pan_no')}", false, panController),
+              buildTextField("Credit Card", "${snapshot!.docs[0].get('credit_card_no')}", false, creditController),
+              buildTextField("Address", "${snapshot!.docs[0].get('address')}", false, addressController),
               SizedBox(
                 height: 35,
               ),
@@ -140,7 +177,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             color: Colors.black)),
                   ),
                   RaisedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      saveProfile();
+                    },
                     color: Colors.indigo,
                     padding: EdgeInsets.symmetric(horizontal: 50),
                     elevation: 2,
@@ -164,10 +203,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
   Widget buildTextField(
-      String labelText, String placeholder, bool isPasswordTextField) {
+      String labelText, String placeholder, bool isPasswordTextField, TextEditingController controller) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 35.0),
       child: TextField(
+        controller: controller,
         obscureText: isPasswordTextField ? showPassword : false,
         decoration: InputDecoration(
             suffixIcon: isPasswordTextField
