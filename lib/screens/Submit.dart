@@ -82,73 +82,36 @@ class _SubmitPageState extends State<SubmitPage> {
           ),
         ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              width: size.width * 0.6,
-              height: 60,
-              decoration: BoxDecoration(
-                color: primaryColor,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Center(
-                child: Text(
-                  '${randomBetween(100000, 999999)}' , style: TextStyle(
-                    fontWeight: FontWeight.bold, color: white, fontSize: 24),
-                ),
-              ),
-            ),
-            SizedBox(height: 40,),
-            // GestureDetector(
-            //   onTap: (){
-            //
-            //   },
-            //   child: Container(
-            //     width: size.width * 0.6,
-            //     height: 60,
-            //     decoration: BoxDecoration(
-            //       color: primaryColor,
-            //       borderRadius: BorderRadius.circular(12),
-            //     ),
-            //     child: Center(
-            //       child: Text(
-            //         'Where\'s My Vehicle?', style: TextStyle(fontWeight: FontWeight.bold, color: white, fontSize: 24),
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            SizedBox(height: 40,),
-            GestureDetector(
-              onTap: () {
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
 
-              },
-              child: Center(
-                child: Container(
-                  width: size.width * 0.9,
-                  height: 150,
-                  decoration: BoxDecoration(
-                    color: white,
-                    borderRadius: BorderRadius.circular(12),
-
-                  ),
-                  child: Center(
-                    child: Text(
-                      'You can get your bike at ${widget.source}. Collect your bike in 30 mins otherwise'
-                          ' your booking will be cancelled.', style: TextStyle(
-                        fontWeight: FontWeight.bold, color: black, fontSize: 24),
-                    ),
-                  ),
-                ),
+                width: 130,
+                height: 130,
+                decoration: BoxDecoration(
+                    border: Border.all(
+                        width: 4,
+                        color: Theme.of(context).scaffoldBackgroundColor),
+                    boxShadow: [
+                      BoxShadow(
+                          spreadRadius: 2,
+                          blurRadius: 10,
+                          color: Colors.black.withOpacity(0.1),
+                          offset: Offset(0, 10))
+                    ],
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(
+                          "https://images.unsplash.com/photo-1604344929197-c89e3ef3c25b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80",
+                        ))),
               ),
-            ),
-            GestureDetector(
-              onTap: (){
-                confirm();
-              },
-              child: Container(
+              SizedBox(height: 40,),
+              Container(
                 width: size.width * 0.6,
                 height: 60,
                 decoration: BoxDecoration(
@@ -157,13 +120,76 @@ class _SubmitPageState extends State<SubmitPage> {
                 ),
                 child: Center(
                   child: Text(
-                    'Confirm Your Ride' , style: TextStyle(
+                    '${randomBetween(100000, 999999)}' , style: TextStyle(
                       fontWeight: FontWeight.bold, color: white, fontSize: 24),
                   ),
                 ),
               ),
-            ),
-          ],
+
+              SizedBox(height: 40,),
+              // GestureDetector(
+              //   onTap: (){
+              //
+              //   },
+              //   child: Container(
+              //     width: size.width * 0.6,
+              //     height: 60,
+              //     decoration: BoxDecoration(
+              //       color: primaryColor,
+              //       borderRadius: BorderRadius.circular(12),
+              //     ),
+              //     child: Center(
+              //       child: Text(
+              //         'Where\'s My Vehicle?', style: TextStyle(fontWeight: FontWeight.bold, color: white, fontSize: 24),
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              SizedBox(height: 40,),
+              GestureDetector(
+                onTap: () {
+
+                },
+                child: Center(
+                  child: Container(
+                    width: size.width * 0.9,
+                    height: 150,
+                    decoration: BoxDecoration(
+                      color: white,
+                      borderRadius: BorderRadius.circular(12),
+
+                    ),
+                    child: Center(
+                      child: Text(
+                        'You can get your bike at ${widget.source}. Collect your bike in 30 mins otherwise'
+                            ' your booking will be cancelled.', style: TextStyle(
+                          fontWeight: FontWeight.bold, color: black, fontSize: 24),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: (){
+                  confirm();
+                },
+                child: Container(
+                  width: size.width * 0.6,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: primaryColor,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Confirm Your Ride' , style: TextStyle(
+                        fontWeight: FontWeight.bold, color: white, fontSize: 24),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
