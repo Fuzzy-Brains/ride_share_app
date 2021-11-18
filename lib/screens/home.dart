@@ -6,6 +6,7 @@ import 'package:ride_share_app/screens/user_screen.dart';
 import 'package:ride_share_app/utils/constants.dart';
 import 'package:ride_share_app/screens/dropdown.dart';
 import 'package:ride_share_app/screens/Profile.dart';
+import 'package:ride_share_app/screens/Submit.dart';
 
 import 'package:ride_share_app/screens/login_screen.dart';
 
@@ -54,7 +55,7 @@ class _HomeState extends State<Home> {
                   onTap: (){
                     db.setUserRole(widget.user, 'rider');
                     Navigator.push(context, MaterialPageRoute(
-                        builder: (c)=> UserScreen(user: widget.user)
+                        builder: (c)=> UserScreen(user:widget.user)
                     ));
                   },
                   child: Container(

@@ -12,6 +12,7 @@ import 'dart:convert';
 import 'package:ride_share_app/utils/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:ride_share_app/screens/Profile.dart';
+import 'package:ride_share_app/screens/Submit.dart';
 
 String Source="Source";
 String Destination="Destination";
@@ -230,7 +231,10 @@ class _UserScreenState extends State<UserScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Add your onPressed code here!
+
+          Navigator.push(context, MaterialPageRoute(
+              builder: (c)=> SubmitPage(user:widget.user,source:Source,destination:Destination)
+          ));
           print(Source);
           print(Destination);
         },
