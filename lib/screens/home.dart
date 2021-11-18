@@ -4,6 +4,8 @@ import 'package:ride_share_app/backend/database.dart';
 import 'package:ride_share_app/screens/lender_screen.dart';
 import 'package:ride_share_app/screens/user_screen.dart';
 import 'package:ride_share_app/utils/constants.dart';
+import 'package:ride_share_app/screens/dropdown.dart';
+import 'package:ride_share_app/screens/Profile.dart';
 
 import 'package:ride_share_app/screens/login_screen.dart';
 
@@ -129,7 +131,10 @@ class _HomeState extends State<Home> {
           Positioned(
             child: GestureDetector(
               onTap: (){
-                openDrawer();
+                db.setUserRole(widget.user, 'rider');
+                Navigator.pushReplacement(context, MaterialPageRoute(
+                  builder: (c)=> UserScreen(user: widget.user),
+                ));
               },
               child: Container(
                 padding: EdgeInsets.all(8),
