@@ -131,10 +131,7 @@ class _HomeState extends State<Home> {
           Positioned(
             child: GestureDetector(
               onTap: (){
-                db.setUserRole(widget.user, 'rider');
-                Navigator.pushReplacement(context, MaterialPageRoute(
-                  builder: (c)=> UserScreen(user: widget.user),
-                ));
+                openDrawer();
               },
               child: Container(
                 padding: EdgeInsets.all(8),
