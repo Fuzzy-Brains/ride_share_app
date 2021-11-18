@@ -39,39 +39,7 @@ class _HomeState extends State<Home> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       key: _scaffoldKey,
-      drawer: Drawer(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                DrawerHeader(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Image.asset('assets/profile_picture.png' , width: 80, height: 80,),
-                      Container(
-                        padding: EdgeInsets.symmetric(vertical: 14),
-                        child: Text('${widget.user!.phoneNumber.toString()}', style: TextStyle(
-                          color: primaryColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),),
-                      )
-                    ],
-                  ),
-                ),
-                ListTile(item: 'Home', iconData: Icons.home, action: (){
 
-                }),
-                ListTile(item: 'Profile', iconData: Icons.person, action: (){
-
-                }),
-                ListTile(item: 'Settings', iconData: Icons.settings, action: (){
-
-                }),
-              ],
-            ),
-          )
-      ),
       body: Stack(
         children: [
           Positioned(
