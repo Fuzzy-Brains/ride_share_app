@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ride_share_app/backend/database.dart';
 
 class AddVehicle extends StatefulWidget {
@@ -26,6 +29,7 @@ class _AddVehicleState extends State<AddVehicle> {
     // print(location);
     await db.saveVehicleData(widget.user, reg_no, owner, location, true).then((value) {
       print(value);
+      Fluttertoast.showToast(msg: "your parameter is saved");
     });
 
   }

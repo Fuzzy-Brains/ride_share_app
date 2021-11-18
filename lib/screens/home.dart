@@ -97,23 +97,23 @@ class _HomeState extends State<Home> {
               ],
             ),
           ),
-          Positioned(
-            child: GestureDetector(
-              onTap: (){
-                openDrawer();
-              },
-              child: Container(
-                padding: EdgeInsets.all(8),
-                child: Icon(Icons.menu, color: white,),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: primaryColor
-                ),
-              ),
-            ),
-            top: 50,
-            left: 30,
-          ),
+          // Positioned(
+          //   child: GestureDetector(
+          //     onTap: (){
+          //       openDrawer();
+          //     },
+          //     child: Container(
+          //       padding: EdgeInsets.all(8),
+          //       child: Icon(Icons.menu, color: white,),
+          //       decoration: BoxDecoration(
+          //           borderRadius: BorderRadius.circular(12),
+          //           color: primaryColor
+          //       ),
+          //     ),
+          //   ),
+          //   top: 50,
+          //   left: 30,
+          // ),
 
           Positioned(
             child: GestureDetector(
