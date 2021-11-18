@@ -115,7 +115,7 @@ class _UserScreenState extends State<UserScreen> {
                   ),
                 ),
                 ListTile(item: 'Home', iconData: Icons.home, action: (){
-
+                  Navigator.pop(context);
                 }),
                 ListTile(item: 'Profile', iconData: Icons.person, action: (){
                   Navigator.push(context, MaterialPageRoute(
@@ -123,7 +123,7 @@ class _UserScreenState extends State<UserScreen> {
                   ));
                 }),
                 ListTile(item: 'Settings', iconData: Icons.settings, action: (){
-
+                  
                 }),
               ],
             ),
