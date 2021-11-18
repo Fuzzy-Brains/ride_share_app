@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ride_share_app/screens/add_vehicle.dart';
+import 'package:ride_share_app/screens/find_my_vehicle.dart';
 import 'package:ride_share_app/utils/constants.dart';
 
 class LenderScreen extends StatefulWidget {
@@ -55,7 +56,7 @@ class _LenderScreenState extends State<LenderScreen> {
             GestureDetector(
               onTap: (){
                 Navigator.pushReplacement(context, MaterialPageRoute(
-                  builder: (c) => AddVehicle()
+                  builder: (c) => AddVehicle(user: widget.user,)
                 ));
               },
               child: Container(
@@ -75,7 +76,9 @@ class _LenderScreenState extends State<LenderScreen> {
             SizedBox(height: 40,),
             GestureDetector(
               onTap: (){
-
+                Navigator.pushReplacement(context, MaterialPageRoute(
+                    builder: (c) => FindMyVehicle(user: widget.user)
+                ));
               },
               child: Container(
                 width: size.width * 0.6,
