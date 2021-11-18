@@ -1,16 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:ride_share_app/screens/user_screen.dart';
 
 
-class SettingsUI extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "Setting UI",
-      home: EditProfilePage(),
-    );
-  }
-}
+
+
 
 String Name="Your Name";
 String Email="Abc@gmail.com";
@@ -21,6 +15,8 @@ String Driving="Your Driving Number";
 String Address="Your Address";
 
 class EditProfilePage extends StatefulWidget {
+  final User? user;
+  const EditProfilePage({Key? key, required this.user }) : super(key: key);
   @override
   _EditProfilePageState createState() => _EditProfilePageState();
 }
@@ -38,7 +34,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
             Icons.arrow_back,
             color: Colors.indigo,
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(
+                builder: (c)=> UserScreen(user: widget.user)
+            ));
+          },
         ),
         actions: [
           IconButton(

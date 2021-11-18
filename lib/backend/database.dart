@@ -20,5 +20,9 @@ class Database{
       'reg_no' : reg_no,
       'owner' : owner
     });
+
+    Future updateProfile(){
+
+    }
   }
 }

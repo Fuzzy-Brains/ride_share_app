@@ -11,6 +11,7 @@ import 'package:ride_share_app/screens/login_screen.dart';
 import 'dart:convert';
 import 'package:ride_share_app/utils/constants.dart';
 import 'package:http/http.dart' as http;
+import 'package:ride_share_app/screens/Profile.dart';
 
 String Source="Source";
 String Destination="Destination";
@@ -94,29 +95,39 @@ class _UserScreenState extends State<UserScreen> {
     return Scaffold(
       key: _scaffoldKey,
       drawer: Drawer(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              DrawerHeader(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Image.asset('assets/profile_picture.png' , width: 80, height: 80,),
-                    Container(
-                      padding: EdgeInsets.symmetric(vertical: 14),
-                      child: Text('${widget.user!.phoneNumber.toString()}', style: TextStyle(
-                        color: primaryColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),),
-                    )
-                  ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                DrawerHeader(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Image.asset('assets/profile_picture.png' , width: 80, height: 80,),
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 14),
+                        child: Text('${widget.user!.phoneNumber.toString()}', style: TextStyle(
+                          color: primaryColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              itemList()
-            ],
-          ),
-        )
+                ListTile(item: 'Home', iconData: Icons.home, action: (){
+
+                }),
+                ListTile(item: 'Profile', iconData: Icons.person, action: (){
+                  Navigator.push(context, MaterialPageRoute(
+                      builder: (c)=> EditProfilePage(user:widget.user)
+                  ));
+                }),
+                ListTile(item: 'Settings', iconData: Icons.settings, action: (){
+
+                }),
+              ],
+            ),
+          )
       ),
 
       body: Stack(
