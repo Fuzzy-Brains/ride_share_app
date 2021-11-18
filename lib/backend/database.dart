@@ -12,4 +12,13 @@ class Database{
       'role': role
     });
   }
+
+  Future saveVehicleData(User? user, String reg_no, String owner){
+    CollectionReference vehicles = _database.collection('vehicles');
+    return vehicles.doc(reg_no).set({
+      'user_id' : user!.uid,
+      'reg_no' : reg_no,
+      'owner' : owner
+    });
+  }
 }
