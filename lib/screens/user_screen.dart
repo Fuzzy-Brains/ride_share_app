@@ -116,7 +116,7 @@ class _UserScreenState extends State<UserScreen> {
                   ),
                 ),
                 ListTile(item: 'Home', iconData: Icons.home, action: (){
-
+                  Navigator.pop(context);
                 }),
                 ListTile(item: 'Profile', iconData: Icons.person, action: (){
                   Navigator.push(context, MaterialPageRoute(
@@ -124,7 +124,7 @@ class _UserScreenState extends State<UserScreen> {
                   ));
                 }),
                 ListTile(item: 'Settings', iconData: Icons.settings, action: (){
-
+                  
                 }),
               ],
             ),
@@ -237,6 +237,8 @@ class _UserScreenState extends State<UserScreen> {
           ));
           print(Source);
           print(Destination);
+          // Add your onPressed code here!
+
         },
         child: const Icon(Icons.navigation),
         backgroundColor: Colors.green,
