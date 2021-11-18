@@ -5,11 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ride_share_app/config/config.dart';
+import 'package:ride_share_app/main.dart';
 import 'package:ride_share_app/models/places.dart';
 import 'package:ride_share_app/screens/login_screen.dart';
 import 'dart:convert';
 import 'package:ride_share_app/utils/constants.dart';
 import 'package:http/http.dart' as http;
+
+String Source="Source";
+String Destination="Destination";
 
 class UserScreen extends StatefulWidget {
   final User? user;
@@ -122,7 +126,7 @@ class _UserScreenState extends State<UserScreen> {
             onMapCreated: _onMapCreated,
             initialCameraPosition: _initialCameraPosition,
             myLocationButtonEnabled: false,
-            zoomControlsEnabled: true,
+            zoomControlsEnabled: false,
             myLocationEnabled: true,
             zoomGesturesEnabled: true,
           ),
@@ -174,6 +178,7 @@ class _UserScreenState extends State<UserScreen> {
                 children: [
                   Container(
                     height: 50,
+                    width:300,
                     padding: EdgeInsets.symmetric(horizontal: 5),
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -183,21 +188,17 @@ class _UserScreenState extends State<UserScreen> {
                               color: Colors.black54, blurRadius: 6, spreadRadius: 0.5, offset: Offset(0.7, 0.7)
                           )
                         ]
+
                     ),
-                    child: TextField(
-                      onChanged: (place){
-                        findPlaces(place);
-                      },
-                      decoration: InputDecoration(
-                          hintText: 'Source Location',
-                          icon: Icon(Icons.location_on),
-                          border: InputBorder.none
-                      ),
-                    ),
+                    child: MyStatefulWidget(),
+
+
                   ),
+
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 8),
                     height: 50,
+                    width: 300,
                     padding: EdgeInsets.symmetric(horizontal: 5),
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -208,13 +209,7 @@ class _UserScreenState extends State<UserScreen> {
                           )
                         ]
                     ),
-                    child: TextField(
-                      decoration: InputDecoration(
-                          hintText: 'Destination Location',
-                          icon: Icon(Icons.search),
-                          border: InputBorder.none
-                      ),
-                    ),
+                    child: MyStatefulWidget1(),
                   ),
                 ],
               ),
@@ -222,6 +217,16 @@ class _UserScreenState extends State<UserScreen> {
           )
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Add your onPressed code here!
+          print(Source);
+          print(Destination);
+        },
+        child: const Icon(Icons.navigation),
+        backgroundColor: Colors.green,
+      ),
+
     );
   }
 
@@ -273,4 +278,95 @@ class ListTile extends StatelessWidget {
     );
   }
 }
+
+
+// for source
+class MyStatefulWidget extends StatefulWidget {
+  const MyStatefulWidget({Key? key}) : super(key: key);
+
+  @override
+  State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
+}
+
+/// This is the private State class that goes with MyStatefulWidget.
+class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      value: Source,
+      icon: const Icon(Icons.arrow_downward),
+      iconSize: 24,
+      elevation: 16,
+      style: const TextStyle(color: Colors.deepPurple),
+      underline: Container(
+        height: 2,
+        color: Colors.deepPurpleAccent,
+      ),
+      onChanged: (String? newValue) {
+        setState(() {
+          Source = newValue!;
+        });
+      },
+      items: <String>['Source', 'Nehru Chowk', 'Guru Ghasidas Vishwavidyalay ', 'Railway Station Bilaspur']
+          .map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+
+    );
+  }
+}
+
+
+// for destination
+
+
+class MyStatefulWidget1 extends StatefulWidget {
+  const MyStatefulWidget1({Key? key}) : super(key: key);
+
+  @override
+  State<MyStatefulWidget1> createState() => _MyStatefulWidgetState1();
+}
+
+/// This is the private State class that goes with MyStatefulWidget.
+
+class _MyStatefulWidgetState1 extends State<MyStatefulWidget1> {
+
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      value: Destination,
+      icon: const Icon(Icons.arrow_downward),
+      iconSize: 24,
+      elevation: 16,
+      style: const TextStyle(color: Colors.deepPurple),
+      underline: Container(
+        height: 2,
+        color: Colors.deepPurpleAccent,
+      ),
+      onChanged: (String? newValue) {
+        setState(() {
+          Destination = newValue!;
+        });
+      },
+      items: <String>['Destination', 'Nehru Chowk', 'Guru Ghasidas Vishwavidyalay ', 'Railway Station Bilaspur']
+          .map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+
+          value: value,
+          child: Text(value),
+
+        );
+      }).toList(),
+    );
+  }
+}
+
+// button
+
 

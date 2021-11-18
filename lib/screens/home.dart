@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:ride_share_app/backend/database.dart';
 import 'package:ride_share_app/screens/user_screen.dart';
 import 'package:ride_share_app/utils/constants.dart';
+import 'package:ride_share_app/screens/dropdown.dart';
+import 'package:ride_share_app/screens/Profile.dart';
 
 class Home extends StatefulWidget {
   final User? user;
@@ -27,7 +29,7 @@ class _HomeState extends State<Home> {
               onTap: (){
                 db.setUserRole(widget.user, 'rider');
                 Navigator.pushReplacement(context, MaterialPageRoute(
-                  builder: (c)=> UserScreen(user: widget.user)
+                  builder: (c)=> EditProfilePage(),
                 ));
               },
               child: Container(
