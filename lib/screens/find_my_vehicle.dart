@@ -63,49 +63,53 @@ class _FindMyVehicleState extends State<FindMyVehicle> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Container(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
 
-            width: 130,
-            height: 130,
-            decoration: BoxDecoration(
-                border: Border.all(
-                    width: 4,
-                    color: Theme.of(context).scaffoldBackgroundColor),
-                boxShadow: [
-                  BoxShadow(
-                      spreadRadius: 2,
-                      blurRadius: 10,
-                      color: Colors.black.withOpacity(0.1),
-                      offset: Offset(0, 10))
-                ],
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(
-                      "https://images.carandbike.com/bike-images/medium/bajaj/pulsar-150/bajaj-pulsar-150.webp?v=52",
-                    ))),
-          ),
-          Container(
-            padding: EdgeInsets.only(left: 12, right: 12, top: 24),
-            child: Text('You can find your vehicles registered with us '
-                'at following locations at their respective times.', style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 24,
-              color: Colors.black
-            ),),
-          ),
-          Container(
-            child: snapshot!=null ? ListView.builder(
-              shrinkWrap: true,
-              itemBuilder: (c,i){
-                return vehicleTile(reg_no: snapshot!.docs[i].get('reg_no'), location: snapshot!.docs[i].get('location'));
-              },
-              itemCount: snapshot!.docs.length,
-            ):Container(),
-          )
-        ],
+              width: 130,
+              height: 130,
+              decoration: BoxDecoration(
+                  border: Border.all(
+                      width: 4,
+                      color: Theme.of(context).scaffoldBackgroundColor),
+                  boxShadow: [
+                    BoxShadow(
+                        spreadRadius: 2,
+                        blurRadius: 10,
+                        color: Colors.black.withOpacity(0.1),
+                        offset: Offset(0, 10))
+                  ],
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(
+                        "https://images.carandbike.com/bike-images/medium/bajaj/pulsar-150/bajaj-pulsar-150.webp?v=52",
+                      ))),
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 12, right: 12, top: 24),
+              child: Text('You can find your vehicles registered with us '
+                  'at following locations at their respective times.', style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+                color: Colors.black
+              ),),
+            ),
+            Container(
+              child: snapshot!=null ? ListView.builder(
+                shrinkWrap: true,
+                itemBuilder: (c,i){
+                  return vehicleTile(reg_no: snapshot!.docs[i].get('reg_no'), location: snapshot!.docs[i].get('location'));
+                },
+                itemCount: snapshot!.docs.length,
+              ):Container(
+                padding: EdgeInsets.symmetric(vertical: 16),
+                  child: Center(child: CircularProgressIndicator(),)),
+            )
+          ],
+        ),
       ),
     );
   }

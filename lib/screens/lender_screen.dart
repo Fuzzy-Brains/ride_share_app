@@ -55,7 +55,7 @@ class _LenderScreenState extends State<LenderScreen> {
           children: [
             GestureDetector(
               onTap: (){
-                Navigator.pushReplacement(context, MaterialPageRoute(
+                Navigator.push(context, MaterialPageRoute(
                   builder: (c) => AddVehicle(user: widget.user,)
                 ));
               },
@@ -76,7 +76,7 @@ class _LenderScreenState extends State<LenderScreen> {
             SizedBox(height: 40,),
             GestureDetector(
               onTap: (){
-                Navigator.pushReplacement(context, MaterialPageRoute(
+                Navigator.push(context, MaterialPageRoute(
                     builder: (c) => FindMyVehicle(user: widget.user)
                 ));
               },

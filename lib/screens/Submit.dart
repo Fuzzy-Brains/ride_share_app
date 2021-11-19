@@ -40,6 +40,10 @@ class _SubmitPageState extends State<SubmitPage> {
     await db.findVehicle(widget.source).then((value) {
       snapshot = value;
     });
+    if(snapshot!.docs.length==0){
+      Fluttertoast.showToast(msg: "No rides found at your source location.");
+      return;
+    }
     String reg_no = snapshot!.docs[0].get('reg_no');
     String owner = snapshot!.docs[0].get('owner');
     await db.confirmRide(widget.user, widget.source, widget.destination, code!, reg_no).then((value) {

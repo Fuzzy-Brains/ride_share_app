@@ -91,7 +91,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           ),
         ],
       ),
-      body: Container(
+      body: snapshot != null ? Container(
         padding: EdgeInsets.only(left: 16, top: 25, right: 16),
         child: GestureDetector(
           onTap: () {
@@ -198,7 +198,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             ],
           ),
         ),
-      ),
+      ) : Center(child: CircularProgressIndicator(),),
     );
   }
 

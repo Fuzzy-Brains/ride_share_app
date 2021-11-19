@@ -29,7 +29,7 @@ class _AddVehicleState extends State<AddVehicle> {
     // print(location);
     await db.saveVehicleData(widget.user, reg_no, owner, location, true).then((value) {
       print(value);
-      Fluttertoast.showToast(msg: "your parameter is saved");
+      Fluttertoast.showToast(msg: "Vehicle Added Successfully.");
     });
 
   }
