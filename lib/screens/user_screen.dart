@@ -1,14 +1,12 @@
 import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:ride_share_app/backend/auth.dart';
 import 'package:ride_share_app/config/config.dart';
-import 'package:ride_share_app/main.dart';
 import 'package:ride_share_app/models/places.dart';
-import 'package:ride_share_app/screens/login_screen.dart';
-import 'dart:convert';
+import 'package:ride_share_app/screens/login.dart';
 import 'package:ride_share_app/utils/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:ride_share_app/screens/Profile.dart';
@@ -31,7 +29,7 @@ class _UserScreenState extends State<UserScreen> {
   late Position currentPosition;
 
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  Auth auth = Auth();
 
   void locatePosition() async{
     Position position = await Geolocator.getCurrentPosition(
@@ -58,37 +56,13 @@ class _UserScreenState extends State<UserScreen> {
     _scaffoldKey.currentState!.openDrawer();
   }
 
-  List<String> items = ["Home", "Profile", "Settings"];
-  List<IconData> icons = [Icons.home, Icons.person, Icons.settings];
-  List<Function> actions = [
-    // Specify functions of each list item dynamically
-    // () { Navigator.pop(context) },
-    // () { Navigator.pop(context) },
-    // () { Navigator.pop(context) },
-  ];
-
-  Widget itemList(){
-    return ListView.builder(
-      shrinkWrap: true,
-      itemBuilder: (context, index){
-        return ListTile(
-          iconData: icons[index],
-          item: items[index],
-          action: ()=> Navigator.pop(context),
-        );
-      },
-      itemCount: items.length,
-    );
-  }
-
   void signOut() async{
-    await _auth.signOut().then((value){
+    await auth.signOut().then((value){
       Navigator.pushReplacement(context, MaterialPageRoute(
         builder: (c)=> LoginScreen()
       ));
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +80,7 @@ class _UserScreenState extends State<UserScreen> {
                       Image.asset('assets/profile_picture.png' , width: 80, height: 80,),
                       Container(
                         padding: EdgeInsets.symmetric(vertical: 14),
-                        child: Text('${widget.user!.phoneNumber.toString()}', style: TextStyle(
+                        child: Text('${widget.user!.email}', style: TextStyle(
                           color: primaryColor,
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
@@ -119,6 +93,7 @@ class _UserScreenState extends State<UserScreen> {
                   Navigator.pop(context);
                 }),
                 ListTile(item: 'Profile', iconData: Icons.person, action: (){
+                  Navigator.pop(context);
                   Navigator.push(context, MaterialPageRoute(
                       builder: (c)=> EditProfilePage(user:widget.user)
                   ));
@@ -149,10 +124,10 @@ class _UserScreenState extends State<UserScreen> {
               },
               child: Container(
                 padding: EdgeInsets.all(8),
-                child: Icon(Icons.menu),
+                child: Icon(Icons.menu, color: white,),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  color: Colors.white
+                  color: primaryColor
                 ),
               ),
             ),
@@ -161,27 +136,9 @@ class _UserScreenState extends State<UserScreen> {
           ),
 
           Positioned(
-            child: GestureDetector(
-              onTap: (){
-                signOut();
-              },
-              child: Container(
-                child: Icon(Icons.exit_to_app),
-                padding: EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: white
-                ),
-              ),
-            ),
-            top: 50,
-            right: 30,
-          ),
-
-          Positioned(
             left: 0,
             right: 0,
-            top: 90,
+            top: 120,
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 24, vertical: 18),
               height: 245,
@@ -203,8 +160,6 @@ class _UserScreenState extends State<UserScreen> {
 
                     ),
                     child: MyStatefulWidget(),
-
-
                   ),
 
                   Container(
@@ -231,14 +186,12 @@ class _UserScreenState extends State<UserScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-
           Navigator.push(context, MaterialPageRoute(
               builder: (c)=> SubmitPage(user:widget.user,source:Source,destination:Destination)
           ));
           print(Source);
           print(Destination);
           // Add your onPressed code here!
-
         },
         child: const Icon(Icons.navigation),
         backgroundColor: Colors.green,

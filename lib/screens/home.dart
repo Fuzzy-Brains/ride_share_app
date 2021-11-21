@@ -1,14 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:ride_share_app/backend/auth.dart';
 import 'package:ride_share_app/backend/database.dart';
 import 'package:ride_share_app/screens/lender_screen.dart';
 import 'package:ride_share_app/screens/user_screen.dart';
 import 'package:ride_share_app/utils/constants.dart';
-import 'package:ride_share_app/screens/dropdown.dart';
 import 'package:ride_share_app/screens/Profile.dart';
 import 'package:ride_share_app/screens/Submit.dart';
 
-import 'package:ride_share_app/screens/login_screen.dart';
+import 'package:ride_share_app/screens/login.dart';
 
 class Home extends StatefulWidget {
   final User? user;
@@ -20,7 +20,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  Auth auth = Auth();
   Database db= Database();
 
   void openDrawer(){
@@ -28,7 +28,7 @@ class _HomeState extends State<Home> {
   }
 
   void signOut() async{
-    await _auth.signOut().then((value){
+    await auth.signOut().then((value){
       Navigator.pushReplacement(context, MaterialPageRoute(
           builder: (c)=> LoginScreen()
       ));
@@ -133,36 +133,6 @@ class _HomeState extends State<Home> {
             right: 30,
           ),
         ],
-      ),
-    );
-  }
-}
-
-class ListTile extends StatelessWidget {
-  final String item;
-  final IconData iconData;
-  final Function action;
-  const ListTile({Key? key, required this.item, required this.iconData, required this.action}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: (){
-        action();
-      },
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-        margin: EdgeInsets.only(left: 10),
-        child: Row(
-          children: [
-            Icon(iconData, color: Colors.grey, size: 28,),
-            SizedBox(width: MediaQuery.of(context).size.width * 0.07,),
-            Text(item, style: TextStyle(
-                color: Colors.grey,
-                fontSize: 18
-            ),)
-          ],
-        ),
       ),
     );
   }

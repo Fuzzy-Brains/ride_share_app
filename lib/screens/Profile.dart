@@ -5,18 +5,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ride_share_app/backend/database.dart';
 import 'package:ride_share_app/screens/user_screen.dart';
 
-
-
-
-
-String Name="Your Name";
-String Email="Abc@gmail.com";
-String Aadhar="12345676789000";
-String Pan="12345676789000";
-String Credit="Your Credit Card";
-String Driving="Your Driving Number";
-String Address="Your Address";
-
 class EditProfilePage extends StatefulWidget {
   final User? user;
   const EditProfilePage({Key? key, required this.user }) : super(key: key);
@@ -59,7 +47,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         snapshot = value;
       });
     });
-    print(snapshot!.docs[0].get('name'));
+    // print(snapshot!.docs[0].get('name'));
   }
 
   @override
@@ -74,9 +62,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             color: Colors.indigo,
           ),
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(
-                builder: (c)=> UserScreen(user: widget.user)
-            ));
+            Navigator.pop(context);
           },
         ),
         actions: [
@@ -153,12 +139,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
               SizedBox(
                 height: 35,
               ),
-              buildTextField("Full Name", "${snapshot!.docs[0].get('name')}", false, nameController),
-              buildTextField("E-mail", "${snapshot!.docs[0].get('email')}", false, emailController),
-              buildTextField("Aadhar Number", "${snapshot!.docs[0].get('aadhaar_no')}", false, aadhaarController),
-              buildTextField("Pan Number", "${snapshot!.docs[0].get('pan_no')}", false, panController),
-              buildTextField("Credit Card", "${snapshot!.docs[0].get('credit_card_no')}", false, creditController),
-              buildTextField("Address", "${snapshot!.docs[0].get('address')}", false, addressController),
+              buildTextField("Full Name", snapshot!.docs.length>0 ? "${snapshot!.docs[0].get('name')}":"", false, nameController),
+              buildTextField("E-mail", snapshot!.docs.length>0 ? "${snapshot!.docs[0].get('email')}":"", false, emailController),
+              buildTextField("Aadhar Number", snapshot!.docs.length>0 ? "${snapshot!.docs[0].get('aadhaar_no')}":"", false, aadhaarController),
+              buildTextField("Pan Number", snapshot!.docs.length>0 ? "${snapshot!.docs[0].get('pan_no')}":"", false, panController),
+              buildTextField("Credit Card", snapshot!.docs.length>0 ? "${snapshot!.docs[0].get('credit_card_no')}":"", false, creditController),
+              buildTextField("Address", snapshot!.docs.length>0 ? "${snapshot!.docs[0].get('address')}":"", false, addressController),
               SizedBox(
                 height: 35,
               ),

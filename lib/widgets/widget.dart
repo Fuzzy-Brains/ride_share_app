@@ -15,3 +15,30 @@ AppBar appBarMain(String title){
     centerTitle: true,
   );
 }
+
+TextStyle headingTextStyle(){
+  return const TextStyle(
+      fontSize: 24,
+      fontWeight: FontWeight.bold,
+      color: primaryColor
+  );
+}
+
+TextStyle simpleButtonStyle(){
+  return const TextStyle(
+    fontSize: 18,
+    color: Colors.white,
+    fontWeight: FontWeight.bold,
+  );
+}
+
+InputDecoration textFieldsInputDecoration(String hint, IconData icon){
+  return InputDecoration(
+      hintText: hint,
+      icon: Icon(icon, color: primaryColor,),
+      hintStyle: const TextStyle(
+          color: Colors.grey,
+      ),
+      // border: InputBorder.none
+  );
+}
