@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -19,6 +20,7 @@ class _AddVehicleState extends State<AddVehicle> {
   TextEditingController cur_location_controller= TextEditingController();
   Database db = Database();
   bool showPassword = false;
+  DocumentSnapshot? snapshot;
 
   saveVehicleData() async{
     String reg_no = reg_no_controller.text.toString().trim();
@@ -27,9 +29,24 @@ class _AddVehicleState extends State<AddVehicle> {
     // print(reg_no);
     // print(owner);
     // print(location);
+    await db.getVehicleInfo(reg_no).then((value){
+      setState(() {
+        snapshot = value;
+      });
+    });
+    if(snapshot!.exists){
+      Fluttertoast.showToast(msg: "Vehicle Exists with this registration no.");
+      reg_no_controller.clear();
+      owner_controller.clear();
+      cur_location_controller.clear();
+      return;
+    }
     await db.saveVehicleData(widget.user, reg_no, owner, location, true).then((value) {
       print(value);
       Fluttertoast.showToast(msg: "Vehicle Added Successfully.");
+      reg_no_controller.clear();
+      owner_controller.clear();
+      cur_location_controller.clear();
     });
 
   }

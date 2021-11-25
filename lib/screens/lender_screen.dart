@@ -68,7 +68,7 @@ class _LenderScreenState extends State<LenderScreen> {
                 ),
                 child: Center(
                   child: Text(
-                    'Add A Vehicle', style: TextStyle(fontWeight: FontWeight.bold, color: white, fontSize: 24),
+                    'Add A Vehicle', style: TextStyle(fontWeight: FontWeight.bold, color: white, fontSize: 18),
                   ),
                 ),
               ),
@@ -89,7 +89,7 @@ class _LenderScreenState extends State<LenderScreen> {
                 ),
                 child: Center(
                   child: Text(
-                    'Where\'s My Vehicle?', style: TextStyle(fontWeight: FontWeight.bold, color: white, fontSize: 24),
+                    'Where\'s My Vehicle?', style: TextStyle(fontWeight: FontWeight.bold, color: white, fontSize: 18),
                   ),
                 ),
               ),
@@ -108,7 +108,7 @@ class _LenderScreenState extends State<LenderScreen> {
                 ),
                 child: Center(
                   child: Text(
-                    'Request For Return', style: TextStyle(fontWeight: FontWeight.bold, color: white, fontSize: 24),
+                    'Request For Return', style: TextStyle(fontWeight: FontWeight.bold, color: white, fontSize: 18),
                   ),
                 ),
               ),

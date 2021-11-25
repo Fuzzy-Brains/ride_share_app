@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 
 class Database{
   FirebaseFirestore _database = FirebaseFirestore.instance;
@@ -59,5 +63,20 @@ class Database{
   Future getProfileData(User? user) async{
     CollectionReference users = _database.collection('users');
     return await users.where('user_id', isEqualTo: user!.uid).get();
+  }
+
+  Future uploadImageToFirebase(BuildContext context, File? file,String? fileName, User? user) async {
+    String? name= file!.path;
+    var firebaseStorageRef = FirebaseStorage.instance.ref().child('uploads/$name');
+    var uploadTask = firebaseStorageRef.putFile(file!);
+    var taskSnapshot = await uploadTask.snapshot;
+    taskSnapshot.ref.getDownloadURL().then(
+          (value) => print("Done: $value"),
+    );
+  }
+
+  Future getVehicleInfo(String reg_no) async{
+    CollectionReference vehicles = _database.collection('vehicles');
+    return await vehicles.doc(reg_no).get();
   }
 }

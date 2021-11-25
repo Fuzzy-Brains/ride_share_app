@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:ride_share_app/backend/auth.dart';
 import 'package:ride_share_app/backend/database.dart';
 import 'package:ride_share_app/screens/lender_screen.dart';
+import 'package:ride_share_app/screens/login_screen.dart';
 import 'package:ride_share_app/screens/user_screen.dart';
 import 'package:ride_share_app/utils/constants.dart';
 import 'package:ride_share_app/screens/Profile.dart';
 import 'package:ride_share_app/screens/Submit.dart';
-
-import 'package:ride_share_app/screens/login.dart';
 
 class Home extends StatefulWidget {
   final User? user;
@@ -44,13 +43,24 @@ class _HomeState extends State<Home> {
       body: Stack(
         children: [
           Positioned(
-            top: 300,
+            top: 200,
             left: 50,
             right: 50,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                Container(
+                  width: size.width * 0.6,
+                  height: 60,
+                  child: Center(
+                    child: Text(
+                      'WELCOME BACK !',
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: primaryColor),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 40,),
                 GestureDetector(
                   onTap: (){
                     // db.setUserRole(widget.user, 'rider');
@@ -67,7 +77,7 @@ class _HomeState extends State<Home> {
                     ),
                     child: Center(
                       child: Text(
-                        'User', style: TextStyle(fontWeight: FontWeight.bold, color: white, fontSize: 24),
+                        'CONTINUE AS USER', style: TextStyle(fontWeight: FontWeight.bold, color: white, fontSize: 18),
                       ),
                     ),
                   ),
@@ -89,7 +99,7 @@ class _HomeState extends State<Home> {
                     ),
                     child: Center(
                       child: Text(
-                        'Lender', style: TextStyle(fontWeight: FontWeight.bold, color: white, fontSize: 24),
+                        'CONTINUE AS LENDER', style: TextStyle(fontWeight: FontWeight.bold, color: white, fontSize: 18),
                       ),
                     ),
                   ),

@@ -1,9 +1,15 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:ride_share_app/backend/database.dart';
 import 'package:ride_share_app/screens/user_screen.dart';
+import 'package:ride_share_app/utils/constants.dart';
 
 class EditProfilePage extends StatefulWidget {
   final User? user;
@@ -20,6 +26,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
   TextEditingController creditController= TextEditingController();
   TextEditingController addressController= TextEditingController();
   bool showPassword = false;
+  File? _file;
+  String? _fileName= "Upload File";
   Database db= Database();
   QuerySnapshot? snapshot;
 
@@ -139,15 +147,75 @@ class _EditProfilePageState extends State<EditProfilePage> {
               SizedBox(
                 height: 35,
               ),
-              buildTextField("Full Name", snapshot!.docs.length>0 ? "${snapshot!.docs[0].get('name')}":"", false, nameController),
-              buildTextField("E-mail", snapshot!.docs.length>0 ? "${snapshot!.docs[0].get('email')}":"", false, emailController),
-              buildTextField("Aadhar Number", snapshot!.docs.length>0 ? "${snapshot!.docs[0].get('aadhaar_no')}":"", false, aadhaarController),
-              buildTextField("Pan Number", snapshot!.docs.length>0 ? "${snapshot!.docs[0].get('pan_no')}":"", false, panController),
-              buildTextField("Credit Card", snapshot!.docs.length>0 ? "${snapshot!.docs[0].get('credit_card_no')}":"", false, creditController),
-              buildTextField("Address", snapshot!.docs.length>0 ? "${snapshot!.docs[0].get('address')}":"", false, addressController),
-              SizedBox(
-                height: 35,
+              buildTextField("Full Name", snapshot!.docs.length>0 ? "${snapshot!.docs[0].get('name')}":"", false, nameController, TextInputType.text),
+              buildTextField("E-mail", snapshot!.docs.length>0 ? "${snapshot!.docs[0].get('email')}":"", false, emailController,TextInputType.emailAddress),
+              buildTextField("Aadhaar Number", snapshot!.docs.length>0 ? "${snapshot!.docs[0].get('aadhaar_no')}":"", false, aadhaarController, TextInputType.number),
+              GestureDetector(
+                onTap: () async{
+                  final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+                  _file = File(pickedFile!.path);
+                  _fileName = "${widget.user!.uid}/aadhaar";
+                  await db.uploadImageToFirebase(context, _file,_fileName, widget.user).then((value){
+                    Fluttertoast.showToast(msg: "File Uploaded Successfully.");
+                  });
+                },
+                child: Container(
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  child: Center(
+                    child: Text('$_fileName', style: TextStyle(color: white, fontWeight: FontWeight.bold,
+                              fontSize: 14),),
+                  ),
+                ),
               ),
+              SizedBox(height: 20,),
+              buildTextField("Pan Number", snapshot!.docs.length>0 ? "${snapshot!.docs[0].get('pan_no')}":"", false, panController, TextInputType.number),
+              GestureDetector(
+                onTap: () async{
+                  final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+                  _file = File(pickedFile!.path);
+                  _fileName = "${widget.user!.uid}/pan";
+                  await db.uploadImageToFirebase(context, _file,_fileName, widget.user).then((value){
+                    Fluttertoast.showToast(msg: "File Uploaded Successfully.");
+                  });
+                },
+                child: Container(
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  child: Center(
+                    child: Text('$_fileName', style: TextStyle(color: white, fontWeight: FontWeight.bold,
+                        fontSize: 14),),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20,),
+              buildTextField("Credit Card", snapshot!.docs.length>0 ? "${snapshot!.docs[0].get('credit_card_no')}":"", false, creditController, TextInputType.number),
+              GestureDetector(
+                onTap: () async{
+                  final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+                  _file = File(pickedFile!.path);
+                  _fileName = "${widget.user!.uid}/credit";
+                  await db.uploadImageToFirebase(context, _file,_fileName, widget.user).then((value){
+                    Fluttertoast.showToast(msg: "File Uploaded Successfully.");
+                  });
+                },
+                child: Container(
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  child: Center(
+                    child: Text('$_fileName', style: TextStyle(color: white, fontWeight: FontWeight.bold,
+                        fontSize: 14),),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20,),
+              buildTextField("Address", snapshot!.docs.length>0 ? "${snapshot!.docs[0].get('address')}":"", false, addressController, TextInputType.text),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -178,7 +246,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           letterSpacing: 2.2,
                           color: Colors.white),
                     ),
-                  )
+                  ),
+                  SizedBox(height: 45,)
                 ],
               )
             ],
@@ -189,10 +258,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
   Widget buildTextField(
-      String labelText, String placeholder, bool isPasswordTextField, TextEditingController controller) {
+      String labelText, String placeholder, bool isPasswordTextField, TextEditingController controller, TextInputType inputType) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 35.0),
       child: TextField(
+        keyboardType: inputType,
         controller: controller,
         obscureText: isPasswordTextField ? showPassword : false,
         decoration: InputDecoration(
@@ -217,7 +287,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
               fontSize: 16,
               fontWeight: FontWeight.bold,
               color: Colors.black,
-            )),
+            ),
+            // border:
+        ),
       ),
     );
   }

@@ -6,7 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ride_share_app/backend/auth.dart';
 import 'package:ride_share_app/config/config.dart';
 import 'package:ride_share_app/models/places.dart';
-import 'package:ride_share_app/screens/login.dart';
+import 'package:ride_share_app/screens/login_screen.dart';
 import 'package:ride_share_app/utils/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:ride_share_app/screens/Profile.dart';
@@ -80,7 +80,7 @@ class _UserScreenState extends State<UserScreen> {
                       Image.asset('assets/profile_picture.png' , width: 80, height: 80,),
                       Container(
                         padding: EdgeInsets.symmetric(vertical: 14),
-                        child: Text('${widget.user!.email}', style: TextStyle(
+                        child: Text('${widget.user!.phoneNumber}', style: TextStyle(
                           color: primaryColor,
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
@@ -279,7 +279,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           Source = newValue!;
         });
       },
-      items: <String>['Source', 'Nehru Chowk', 'Guru Ghasidas Vishwavidyalay ', 'Railway Station Bilaspur']
+      items: <String>['Source', 'Nehru Chowk', 'Guru Ghasidas Vishwavidyalaya', 'Railway Station Bilaspur']
           .map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
