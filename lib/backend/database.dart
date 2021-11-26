@@ -67,7 +67,7 @@ class Database{
 
   Future uploadImageToFirebase(BuildContext context, File? file,String? fileName, User? user) async {
     String? name= file!.path;
-    var firebaseStorageRef = FirebaseStorage.instance.ref().child('uploads/$name');
+    var firebaseStorageRef = FirebaseStorage.instance.ref().child('uploads/${user!.uid}/$name');
     var uploadTask = firebaseStorageRef.putFile(file!);
     var taskSnapshot = await uploadTask.snapshot;
     taskSnapshot.ref.getDownloadURL().then(
